@@ -1,0 +1,69 @@
+Auto-scaling in Kubernetes allows you to automatically adjust the number of running instances of your application based on workload demands. This ensures that your application can handle increased traffic and workload without manual intervention. There are two types of auto-scaling in Kubernetes: Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler.
+
+1. Horizontal Pod Autoscaler (HPA):
+   - The HPA scales the number of replicas of a Deployment or ReplicationController based on CPU utilization or custom metrics.
+   - To enable HPA, you need to have a metric server running in your cluster to collect resource usage data.
+   - You define the minimum and maximum number of replicas, as well as the desired target CPU utilization or custom metric threshold.
+   - The HPA periodically adjusts the number of replicas based on the configured metrics.
+   - Example command to create an HPA:
+     ```
+     kubectl autoscale deployment my-app --cpu-percent=80 --min=1 --max=10
+     ```
+
+2. Cluster Autoscaler:
+   - The Cluster Autoscaler automatically adjusts the number of nodes in a cluster based on pending pod requests.
+   - It ensures that pods can be scheduled by provisioning additional nodes or removing underutilized nodes.
+   - Cluster Autoscaler requires integration with a cloud provider's scaling group or custom infrastructure setup.
+   - You define the minimum and maximum number of nodes that can be scaled.
+   - When a pod cannot be scheduled due to resource constraints, the Cluster Autoscaler adds a new node to the cluster.
+   - Example command to deploy Cluster Autoscaler:
+     ```
+     kubectl apply -f cluster-autoscaler.yaml
+     ```
+
+Note: To use auto-scaling in Kubernetes, you need to have proper monitoring and metrics configured in your cluster. Ensure that you have metrics server or custom metrics adapter set up to collect resource usage data.
+
+It's important to carefully configure auto-scaling thresholds and limits based on your application's requirements and performance characteristics. Test and monitor the auto-scaling behavior to ensure it meets your application's needs without excessive scaling or resource wastage.
+
+To set up the Metrics Server in Kubernetes, follow these steps:
+
+1. Ensure you have a Kubernetes cluster up and running.
+
+2. Download the Metrics Server YAML file using the following command:
+   ```
+   wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+   ```
+
+3. Open the downloaded YAML file (`components.yaml`) using a text editor.
+
+4. Locate the `args` section under the `metrics-server` container within the YAML file.
+
+5. Add the following arguments under the `args` section:
+   ```
+   - --kubelet-insecure-tls
+   - --kubelet-preferred-address-types=InternalIP
+   ```
+
+   These arguments allow the Metrics Server to communicate securely with the kubelets in your cluster.
+
+6. Save the YAML file after making the necessary changes.
+
+7. Apply the Metrics Server configuration by running the following command:
+   ```
+   kubectl apply -f components.yaml
+   ```
+
+   This deploys the Metrics Server components to your cluster.
+
+8. Verify that the Metrics Server is running correctly. Run the following command:
+   ```
+   kubectl get pods -n kube-system
+   ```
+
+   Ensure that the Metrics Server pods (`metrics-server-*`) are in the "Running" state.
+
+Once the Metrics Server is successfully deployed, it starts collecting resource usage metrics from the kubelets and exposes them as metrics in the Kubernetes API.
+
+You can verify the metrics by running commands such as `kubectl top pods` or `kubectl top nodes`. These commands retrieve resource usage information for pods or nodes, respectively, using the Metrics Server.
+
+Note that it may take a few minutes for the Metrics Server to collect and start serving metrics after deployment.
