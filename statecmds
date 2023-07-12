@@ -1,0 +1,28 @@
+stateful set testing
+
+kubectl get statefulsets
+kubectl describe statefulset web
+
+kubectl get pods
+
+check dns, please run below command
+
+kubectl run -it --rm --restart=Never dnsutils2 --image=tutum/dnsutils  --command -- bash
+
+perform nslookup to ip of the pod
+
+nslookup 10.244.0.5
+nslookup web-0.nginx.default.svc.cluster.local
+
+delete one of the pod , run command
+
+kubectl delete pod web-0
+
+then again check
+
+kubectl get pods -o wide
+
+
+
+
+
