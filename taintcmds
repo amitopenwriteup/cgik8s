@@ -1,0 +1,13 @@
+
+Here's an example to illustrate taints and tolerations:
+
+1. Apply a taint to a node:
+   ```
+   kubectl taint nodes <node-name> key=value:effect
+   ```
+   For instance:
+   ```
+   kubectl taint nodes node-1 app=backend:NoSchedule
+   ```
+
+

@@ -1,0 +1,12 @@
+   apiVersion: v1
+   kind: Pod
+   metadata:
+     name: backend-pod
+   spec:
+     containers:
+     - name: backend-container
+       image: nginx
+     tolerations:
+     - key: app
+       value: backend
+       effect: NoSchedule

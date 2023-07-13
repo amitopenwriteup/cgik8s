@@ -1,0 +1,9 @@
+kubectl create -f cm-pod.yaml
+kubectl describe pod configmap-demo-pod
+kubectl exec configmap-demo-pod -c demo -it -- /bin/sh
+export 
+
+# check the value
+export
+
+# UI_PROPERTIES_FILE_NAME='user-interface.properties'

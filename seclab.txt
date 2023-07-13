@@ -1,0 +1,8 @@
+secret lab
+--------------------------
+echo -n 'root' > ./username.txt
+echo -n 'Mq2D#(8gf09' > ./password.txt
+
+kubectl create secret generic db-cerds \
+  --from-file=./username.txt \
+  --from-file=./password.txt

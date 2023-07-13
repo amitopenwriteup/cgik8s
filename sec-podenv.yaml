@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: php-mysql-app
+spec: 
+  containers: 
+    - 
+      env: 
+        - 
+          name: MYSQL_USER
+          valueFrom: 
+            secretKeyRef: 
+              key: username
+              name: database-creds
+        - 
+          name: MYSQL_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              key: password
+              name: database-creds
+      image: "php:latest"
+      name: php-app
