@@ -18,7 +18,7 @@ pipeline {
                     } else {
                         // Perform actions when Ansible does not exist
                        sh 'sudo apt-add-repository ppa:ansible/ansible'
-                       sh 'sudo apt install ansible'
+                       sh 'sudo apt install ansible -y'
                     }
                 }
             }
